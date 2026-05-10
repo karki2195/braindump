@@ -1,12 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Home() {
 
   const [input, setInput] = useState("");
   const [dumps, setDumps] = useState<string[]>([]);
   const [panelOpen, setPanelOpen] = useState(false);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("braindumps");
+    if (saved) {
+      setDumps(JSON.parse(saved));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("braindumps", JSON.stringify(dumps));
+  }, [dumps]);
 
   function handleDump(){
     if (input.trim() === "") return;
