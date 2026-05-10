@@ -12,11 +12,11 @@ No categories. No organization. Just dump it and move on.
 Solo user. Always on mobile. Needs to capture thoughts in under 3 seconds.
 
 ## MVP Features
-- [ ] Text input, auto-focused when app opens
-- [ ] "Dump It" button to save the thought
-- [ ] Screen clears after saving, ready for next thought
-- [ ] Side panel showing all dumps in chronological order
-- [ ] Each dump shows text + time it was captured
+- [x] Text input, auto-focused when app opens
+- [x] "Dump It" button to save the thought
+- [x] Screen clears after saving, ready for next thought
+- [x] Side panel showing all dumps in chronological order
+- [x] Each dump shows text + time it was captured
 
 ## Out of Scope for MVP
 - Categories or tags
@@ -31,3 +31,6 @@ Solo user. Always on mobile. Needs to capture thoughts in under 3 seconds.
 
 ## Version
 v0.1 — MVP
+
+## Completed
+v0.1 MVP — completed [10-5-2026 15:57]
