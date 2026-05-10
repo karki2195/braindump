@@ -2,10 +2,15 @@
 
 import { useState, useEffect } from "react";
 
+type Dump = {
+  text: String
+  time: String
+}
+
 export default function Home() {
 
   const [input, setInput] = useState("");
-  const [dumps, setDumps] = useState<string[]>([]);
+  const [dumps, setDumps] = useState<Dump[]>([]);
   const [panelOpen, setPanelOpen] = useState(false);
 
   useEffect(() => {
@@ -21,9 +26,17 @@ export default function Home() {
 
   function handleDump(){
     if (input.trim() === "") return;
-    setDumps([input, ...dumps]);
-    setInput("");
-  }
+
+    const newDump = {
+      text: input,
+      time: new Date().toLocaleString([],{
+        hour: "2-digit",
+        minute: "2-digit"
+      })
+  };
+  setDumps([newDump, ...dumps]);
+  setInput("");
+}
 
   return (
 
@@ -52,7 +65,8 @@ export default function Home() {
 
       {dumps.map((dump, index) => (
       <div key={index} className="bg-zinc-900 rounded-2xl p-4">
-          <p className="text-white">{dump}</p>
+          <p className="text-white">{dump.text}</p>
+          <p className="text-zinc-500 text-sm mt-1">{dump.time}</p>
         </div>
       ))}
       </div>
@@ -74,20 +88,9 @@ export default function Home() {
             className="w-full bg-white text-black font-semibold py-4 rounded-2xl text-lg">
               Dump It!
             </button>
-
-
-        </div>
-
-
-
-
-
-
+        </div> 
 
     </main>
 
   );
-
-
-
 }
