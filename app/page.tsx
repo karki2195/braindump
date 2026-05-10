@@ -3,8 +3,8 @@
 import { useState, useEffect } from "react";
 
 type Dump = {
-  text: String
-  time: String
+  text: string
+  time: string
 }
 
 export default function Home() {
@@ -38,6 +38,10 @@ export default function Home() {
   setInput("");
 }
 
+function dumpDelete(index: number) {
+  setDumps(dumps.filter((_, i) => i !== index));
+}
+
   return (
 
     <main className="min-h-screen bg-zinc-950 text-white flex flex-col">
@@ -67,6 +71,9 @@ export default function Home() {
       <div key={index} className="bg-zinc-900 rounded-2xl p-4">
           <p className="text-white">{dump.text}</p>
           <p className="text-zinc-500 text-sm mt-1">{dump.time}</p>
+          <button onClick={() => dumpDelete(index)}
+          className="text-red-400 text-sm-2">🗑️</button>
+
         </div>
       ))}
       </div>
