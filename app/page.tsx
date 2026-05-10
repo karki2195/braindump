@@ -3,8 +3,9 @@
 import { useState, useEffect } from "react";
 
 type Dump = {
-  text: string
-  time: string
+  id: number;
+  text: string;
+  createdAt: string;
 }
 
 export default function Home() {
@@ -14,32 +15,26 @@ export default function Home() {
   const [panelOpen, setPanelOpen] = useState(false);
 
   useEffect(() => {
-    const saved = localStorage.getItem("braindumps");
-    if (saved) {
-      setDumps(JSON.parse(saved));
-    }
-  }, []);
+    fetch("/api/dumps")
+    .then((res) => res.json())
+    .then((data) => setDumps(data));
+}, []);
 
-  useEffect(() => {
-    localStorage.setItem("braindumps", JSON.stringify(dumps));
-  }, [dumps]);
-
-  function handleDump(){
+  async function handleDump(){
     if (input.trim() === "") return;
-
-    const newDump = {
-      text: input,
-      time: new Date().toLocaleString([],{
-        hour: "2-digit",
-        minute: "2-digit"
-      })
-  };
+    const res = await fetch("/api/dumps", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: input })
+    });
+    const newDump = await res.json();
   setDumps([newDump, ...dumps]);
   setInput("");
 }
 
-function dumpDelete(index: number) {
-  setDumps(dumps.filter((_, i) => i !== index));
+async function dumpDelete(id: number) {
+  await fetch (`/api/dumps/${id}`, {method: "DELETE"});
+  setDumps(dumps.filter((dump) => dump.id !== id));
 }
 
   return (
@@ -68,10 +63,13 @@ function dumpDelete(index: number) {
       )}
 
       {dumps.map((dump, index) => (
-      <div key={index} className="bg-zinc-900 rounded-2xl p-4">
+      <div key={dump.id} className="bg-zinc-900 rounded-2xl p-4">
           <p className="text-white">{dump.text}</p>
-          <p className="text-zinc-500 text-sm mt-1">{dump.time}</p>
-          <button onClick={() => dumpDelete(index)}
+          <p className="text-zinc-500 text-sm mt-1">{new Date(dump.createdAt).toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit"
+  })}</p>
+          <button onClick={() => dumpDelete(dump.id)}
           className="text-red-400 text-sm-2">🗑️</button>
 
         </div>
