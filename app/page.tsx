@@ -6,19 +6,48 @@ export default function Home() {
 
   const [input, setInput] = useState("");
   const [dumps, setDumps] = useState<string[]>([]);
+  const [panelOpen, setPanelOpen] = useState(false);
 
   function handleDump(){
     if (input.trim() === "") return;
-    setDumps([...dumps, input]);
+    setDumps([input, ...dumps]);
     setInput("");
   }
 
   return (
 
     <main className="min-h-screen bg-zinc-950 text-white flex flex-col">
-      <div className="flex items-centre justify-between px-4 py-4">
+      <div className="flex items-center justify-between px-4 py-4">
         <h1 className="text-xl font-bold">BrainDump</h1>
+        <button onClick={() => setPanelOpen(true)} className="text-zinc-400 text-2xl">
+           ☰
+        </button>
       </div>
+
+      {panelOpen && (
+        <div className="fixed inset-0 bg-zinc-950 z-50 flex flex-col">
+
+    <div className="flex items-center justify-between px-4 py-4">
+      <h2 className="text-xl font-bold">Your Dumps</h2>
+      <button onClick={() => setPanelOpen(false)} className="text-zinc-400 text-2xl">
+         ✕
+      </button>
+    </div>
+
+     <div className="flex flex-col gap-3 px-4 overflow-y-auto">
+      {dumps.length === 0 && (
+        <p className="text-zinc-500">Nothing dumped yet.</p>
+      )}
+
+      {dumps.map((dump, index) => (
+      <div key={index} className="bg-zinc-900 rounded-2xl p-4">
+          <p className="text-white">{dump}</p>
+        </div>
+      ))}
+      </div>
+</div>
+      )
+      }
 
       <div className="flex flex-col flex-1 px-4 gap-4 justify-center">
 
