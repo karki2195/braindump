@@ -41,7 +41,11 @@ async function dumpDelete(id: number) {
 
     <main className="min-h-screen bg-zinc-950 text-white flex flex-col">
       <div className="flex items-center justify-between px-4 py-4">
-        <h1 className="text-xl font-bold">BrainDump</h1>
+        <h1 className="text-xl font-bold">BrainDump {dumps.length > 0 && (
+          <span className="text-zinc-400 text-sm font-normal">/
+            ({dumps.length})
+          </span>
+        )}</h1>
         <button onClick={() => setPanelOpen(true)} className="text-zinc-400 text-2xl">
            ☰
         </button>
@@ -62,7 +66,7 @@ async function dumpDelete(id: number) {
         <p className="text-zinc-500">Nothing dumped yet.</p>
       )}
 
-      {dumps.map((dump, index) => (
+      {dumps.map((dump, id) => (
       <div key={dump.id} className="bg-zinc-900 rounded-2xl p-4">
           <p className="text-white">{dump.text}</p>
           <p className="text-zinc-500 text-sm mt-1">{new Date(dump.createdAt).toLocaleTimeString([], {
