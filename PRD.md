@@ -17,20 +17,31 @@ Solo user. Always on mobile. Needs to capture thoughts in under 3 seconds.
 - [x] Screen clears after saving, ready for next thought
 - [x] Side panel showing all dumps in chronological order
 - [x] Each dump shows text + time it was captured
+- [x] Persists across refresh via SQLite database
+- [x] Delete individual dump
+- [x] Mark dump as done with strikethrough
+- [x] Done dumps sort to bottom
+- [x] Dump count in header
+- [x] Search through dumps
+- [x] Delete all with confirmation
 
 ## Out of Scope for MVP
 - Categories or tags
 - Priority sorting
 - User accounts
-- Database (we use local storage for MVP)
+- PWA / installable app
 
 ## Tech Stack
-- Next.js
+- Next.js 16
 - TypeScript
 - Tailwind CSS
+- Prisma ORM
+- SQLite
+
+## Next Steps
+- [ ] Deployment — host on internet, accessible from phone
+- [ ] User accounts — multi-user support
+- [ ] PWA — installable on phone like a native app
 
 ## Version
-v0.1 — MVP
-
-## Completed
-v0.1 MVP — completed [10-5-2026 15:57]
+v0.1 — MVP completed May 2026
