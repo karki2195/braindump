@@ -14,12 +14,17 @@ export default function Home() {
   const [input, setInput] = useState("");
   const [dumps, setDumps] = useState<Dump[]>([]);
   const [panelOpen, setPanelOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     fetch("/api/dumps")
     .then((res) => res.json())
     .then((data) => setDumps(data));
 }, []);
+
+const filteredDumps = dumps.filter((dump) =>
+  dump.text.toLowerCase().includes(searchTerm.toLowerCase())
+);
 
   async function handleDump(){
     if (input.trim() === "") return;
@@ -72,13 +77,20 @@ async function handleDone(id: number) {
          ✕
       </button>
     </div>
-
+<div className="px-4 mb-3">
+        <input
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          placeholder="Search your dumps..."
+          className="w-full bg-zinc-900 text-white rounded-2xl p-4 text-lg focus:outline-none"
+        />
+        </div>
      <div className="flex flex-col gap-3 px-4 overflow-y-auto">
       {dumps.length === 0 && (
         <p className="text-zinc-500">Nothing dumped yet.</p>
       )}
 
-      {dumps.map((dump, id) => (
+      {filteredDumps.map((dump, id) => (
       <div key={dump.id} className="bg-zinc-900 rounded-2xl p-4">
   <p className={`text-white ${dump.done ? "line-through text-zinc-500" : ""}`}>
     {dump.text}
