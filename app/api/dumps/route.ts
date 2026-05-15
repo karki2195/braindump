@@ -15,3 +15,9 @@ export async function POST(request: Request) {
   });
   return NextResponse.json(dump);
 }
+
+export async function DELETE() {
+    await db.dump.deleteMany({});
+    return NextResponse.json({ success: true });
+
+}

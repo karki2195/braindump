@@ -15,6 +15,7 @@ export default function Home() {
   const [dumps, setDumps] = useState<Dump[]>([]);
   const [panelOpen, setPanelOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [showConfirm, setShowConfirm] = useState(false);
 
   useEffect(() => {
     fetch("/api/dumps")
@@ -54,6 +55,12 @@ async function handleDone(id: number) {
 
 }
 
+async function handleDeleteAll() {
+  await fetch("/api/dumps", {method: "DELETE"});
+  setDumps([]);
+  setShowConfirm(false);
+}
+
   return (
 
     <main className="min-h-screen bg-zinc-950 text-white flex flex-col">
@@ -73,9 +80,33 @@ async function handleDone(id: number) {
 
     <div className="flex items-center justify-between px-4 py-4">
       <h2 className="text-xl font-bold">Your Dumps</h2>
+       <div className="flex items-center gap-3">
+    {!showConfirm && (
+      <button
+        onClick={() => setShowConfirm(true)}
+        className="text-red-400 text-sm">
+        Delete All
+      </button>
+    )}
+    {showConfirm && (
+      <div className="flex gap-2 items-center">
+        <span className="text-zinc-400 text-sm">Sure?</span>
+        <button
+          onClick={handleDeleteAll}
+          className="text-red-400 text-sm font-semibold">
+          Yes
+        </button>
+        <button
+          onClick={() => setShowConfirm(false)}
+          className="text-zinc-400 text-sm">
+          No
+        </button>
+      </div>
+    )}
       <button onClick={() => setPanelOpen(false)} className="text-zinc-400 text-2xl">
          ✕
       </button>
+    </div>
     </div>
 <div className="px-4 mb-3">
         <input
