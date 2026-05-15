@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 type Dump = {
   id: number;
   text: string;
+  done: boolean;
   createdAt: string;
 }
 
@@ -35,6 +36,17 @@ export default function Home() {
 async function dumpDelete(id: number) {
   await fetch (`/api/dumps/${id}`, {method: "DELETE"});
   setDumps(dumps.filter((dump) => dump.id !== id));
+}
+
+async function handleDone(id: number) {
+  const res = await fetch(`/api/dumps/${id}`, {
+    method: "PATCH"
+  });
+  const updatedDump = await res.json();
+  setDumps(dumps.map((dump) =>
+    dump.id === id ? updatedDump : dump
+));
+
 }
 
   return (
@@ -68,15 +80,28 @@ async function dumpDelete(id: number) {
 
       {dumps.map((dump, id) => (
       <div key={dump.id} className="bg-zinc-900 rounded-2xl p-4">
-          <p className="text-white">{dump.text}</p>
-          <p className="text-zinc-500 text-sm mt-1">{new Date(dump.createdAt).toLocaleTimeString([], {
-    hour: "2-digit",
-    minute: "2-digit"
-  })}</p>
-          <button onClick={() => dumpDelete(dump.id)}
-          className="text-red-400 text-sm-2">🗑️</button>
-
-        </div>
+  <p className={`text-white ${dump.done ? "line-through text-zinc-500" : ""}`}>
+    {dump.text}
+  </p>
+  <p className="text-zinc-500 text-sm mt-1">
+    {new Date(dump.createdAt).toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit"
+    })}
+  </p>
+  <div className="flex gap-3 mt-2">
+    {!dump.done && (
+      <button onClick={() => handleDone(dump.id)}
+        className="text-green-400 text-sm">
+        ✓ Done
+      </button>
+    )}
+    <button onClick={() => dumpDelete(dump.id)}
+      className="text-red-400 text-sm">
+      🗑️
+    </button>
+  </div>
+</div>
       ))}
       </div>
 </div>

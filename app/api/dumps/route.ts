@@ -3,7 +3,7 @@ import { db } from "../../../lib/db";
 
 export async function GET() {
   const dumps = await db.dump.findMany({
-    orderBy: { createdAt: "desc" }
+    orderBy: [{done: "asc"},{ createdAt: "desc" }] 
   });
   return NextResponse.json(dumps);
 }

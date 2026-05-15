@@ -12,3 +12,16 @@ export async function DELETE(
   });
   return NextResponse.json({ success: true });
 }
+
+export async function PATCH(
+    request: Request,
+    { params }: { params: Promise < { id: string } >}
+    ) {
+        const { id} = await params;
+        const dumpId = parseInt(id);
+        const dump = await db.dump.update({
+            where: { id: dumpId },
+            data: {done: true}
+        });
+        return NextResponse.json(dump);
+    }
