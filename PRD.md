@@ -45,3 +45,9 @@ Solo user. Always on mobile. Needs to capture thoughts in under 3 seconds.
 
 ## Version
 v0.1 — MVP completed May 2026
+
+## Deployment
+- Hosted on Vercel
+- Database on Neon Postgres (Singapore)
+- URL: braindump-ecru-sigma.vercel.app
+- Auto-deploys on every push to main
